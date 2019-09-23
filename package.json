@@ -30,8 +30,10 @@
   },
   "homepage": "https://github.com/KitsuneIDK/shiny-ytdl#readme",
   "dependencies": {
+    "content-disposition": "^0.5.3",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
+    "fluent-ffmpeg": "^2.1.2",
     "yt-search": "^0.4.1",
     "ytdl-core": "^0.29.7",
     "ytpl": "^0.1.16"
