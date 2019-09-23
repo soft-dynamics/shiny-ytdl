@@ -5,10 +5,7 @@
   "main": "website.js",
   "scripts": {
     "test": "echo \"WIP script\" && exit 0",
-    "download": "echo \"WIP script\" && exit 0",
-    "start": "echo \"WIP script\" && exit 0",
-    "cli-install": "echo \"WIP script\" && exit 0",
-    "dl-update": "echo \"WIP script\" && exit 0"
+    "start": "echo \"WIP script\" && exit 0"
   },
   "repository": {
     "type": "git",
