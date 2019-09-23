@@ -1,0 +1,42 @@
+{
+  "name": "shiny-ytdl",
+  "version": "0.0.1",
+  "description": "A user website and CLI with the capacity to download YouTube videos and playlist",
+  "main": "website.js",
+  "scripts": {
+    "test": "echo \"WIP script\" && exit 0",
+    "download": "echo \"WIP script\" && exit 0",
+    "start": "echo \"WIP script\" && exit 0",
+    "cli-install": "echo \"WIP script\" && exit 0",
+    "dl-update": "echo \"WIP script\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KitsuneIDK/shiny-ytdl.git"
+  },
+  "keywords": [
+    "shiny",
+    "tech",
+    "ytdl",
+    "website",
+    "cli"
+  ],
+  "author": {
+    "name": "Soft Dynamics",
+    "url": "https://softdynamics.tk",
+    "email": "contact.softdynamics@gmail.com"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/KitsuneIDK/shiny-ytdl/issues",
+    "email": "contact.softdynamics@gmail.com"
+  },
+  "homepage": "https://github.com/KitsuneIDK/shiny-ytdl#readme",
+  "dependencies": {
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "yt-search": "^0.4.1",
+    "ytdl-core": "^0.29.7",
+    "ytpl": "^0.1.16"
+  }
+}

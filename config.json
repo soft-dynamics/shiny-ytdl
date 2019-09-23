@@ -1,0 +1,21 @@
+{
+	"version" {
+		"major": 0,
+		"minor": 0,
+		"patch": 1
+	},
+	"cookies": true,
+	"protocol": {
+		"http": {
+			"enable": true,
+			"port": 8080
+		}
+		"https": {
+			"enable": false,
+			"port": 8443,
+			"redirect": false,
+			"cert": "",
+			"key": ""
+		}
+	}
+}
