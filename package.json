@@ -1,11 +1,11 @@
 {
   "name": "shiny-ytdl",
   "version": "0.0.1",
-  "description": "A user website and CLI with the capacity to download YouTube videos and playlist",
-  "main": "website.js",
+  "description": "A user website with the capacity to download YouTube videos and playlists",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"WIP script\" && exit 0",
-    "start": "echo \"WIP script\" && exit 0"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,8 +15,7 @@
     "shiny",
     "tech",
     "ytdl",
-    "website",
-    "cli"
+    "website"
   ],
   "author": {
     "name": "Soft Dynamics",
