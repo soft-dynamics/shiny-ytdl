@@ -14,35 +14,35 @@ This program is only tested in Android 8.1 and anothers plataform don't has sure
 To download in Android you need the [Termux app](https://play.google.com/store/apps/details?id=com.termux) its for free!
 
 To install needed Termux packages use:
-`pkg install ffmpeg libmp3lame libx265 libogg nodejs`
+- `pkg install ffmpeg libmp3lame libx265 libogg nodejs`
 
 To install Shiny YTDL you gonna create a folder, access she and use:
-`wget -O "index.js" https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/index.js && node index`
+- `wget -O "index.js" https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/index.js && node index`
 
 To run after installed all:
-`npm start`
+- `npm start`
 
 Problems with FFmpeg? see https://npmjs.com/package/fluent-ffmpeg
 
 ### Windows
 
 To download in Windows you need the following programs:
-[NodeJS](https://nodejs.org/)
-NPM - See NodeJS NPM Windows install
-[FFmpeg](https://ffmpeg.org/)
+- [NodeJS](https://nodejs.org/)
+- NPM - See NodeJS NPM Windows install
+- [FFmpeg](https://ffmpeg.org/)
 
 Install with wget on Windows:
-[wget](http://gnuwin32.sourceforge.net/packages/wget.htm)
-`wget -O "shiny.js" https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/index.js`
-`node index`
+- [wget](http://gnuwin32.sourceforge.net/packages/wget.htm)
+1. `wget -O "shiny.js" https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/index.js`
+2. `node index`
 
 Install with git:
-`git clone https://github.com/soft-dynamics/shiny-ytdl.git`
-`cd shiny-ytdl`
-`node index`
+1. `git clone https://github.com/soft-dynamics/shiny-ytdl.git`
+2. `cd shiny-ytdl`
+3. `node index`
 
 To run after installed all:
-`npm start`
+- `npm start`
 
 Problems with FFmpeg? see https://npmjs.com/package/fluent-ffmpeg
 
