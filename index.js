@@ -12,44 +12,32 @@ function packRepair() {
 		configRepair();
 	} catch (e) {
 		console.log("\n\x1b[33mDon't found package.json, downloading the missing file...\x1b[0m");
-		https.get('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/package.json', (res) => {
-			var data = "";
-			res.on('data', (chunk) => {
-				data += chunk;
-			});
-			
-			res.on('end', () => {
-				fs.writeFileSync('./package.json', data);
-				console.log("\n\x1b[34mFile package.json downloaded!\x1b[0m");
-				packRepair();
-			});
-		}).on('error', (err) => {
-			console.log("\n\x1b[31mCan't download package.json, please manually download in https://github.com/soft-dynamics/shiny-ytdl.\x1b[0m");
-			process.exit(1);
+		download('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/package.json', (err, data) => {
+			if (err) {
+				console.log("\n\x1b[31mCan't download package.json, please manually download in https://github.com/soft-dynamics/shiny-ytdl.\x1b[0m");
+				process.exit(1);
+			}
+			fs.writeFileSync('./package.json', data);
+			console.log("\n\x1b[34mFile package.json downloaded!\x1b[0m");
+			packRepair();
 		});
 	}
 }
 
 function configRepair() {
 	try {
-		var config = require('./config.json');
+		var config = JSON.parse(fs.readFileSync('./config.json'));
 		depRepair();
 	} catch (e) {
 		console.log("\n\x1b[33mDon't found config.json, downloading the missing file...\x1b[0m");
-		https.get('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/config.json', (res) => {
-			var data = "";
-			res.on('data', (chunk) => {
-				data += chunk;
-			});
-		
-			res.on('end', () => {
-				fs.writeFileSync('./config.json', data);
-				console.log("\n\x1b[34mFile config.json downloaded!\x1b[0m");
-				configRepair();
-			});
-		}).on('error', (err) => {
-			console.log("\n\x1b[31mCan't download config.json, please manually download in https://github.com/soft-dynamics/shiny-ytdl.\x1b[0m");
-			process.exit(1);
+		download('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/config.json', (err, data) => {
+			if (err) {
+				console.log("\n\x1b[31mCan't download config.json, please manually download in https://github.com/soft-dynamics/shiny-ytdl.\x1b[0m");
+				process.exit(1);
+			}
+			fs.writeFileSync('./config.json', data);
+			console.log("\n\x1b[34mFile config.json downloaded!\x1b[0m");
+			packRepair();
 		});
 	}
 }
@@ -63,7 +51,7 @@ function depRepair() {
 		var search = require('yt-search');
 		var ytdl = require('ytdl-core');
 		var ffmpeg = require('fluent-ffmpeg');
-		start();
+		htmlRepair();
 	} catch (e) {
 		console.log(e);
 		/*console.log("\n\x1b[33mDon't found dependencies, installing all needed dependencies...\x1b[0m");
@@ -79,19 +67,61 @@ function depRepair() {
 }
 
 function htmlRepair() {
-	
+	if (!fs.existsSync("./html")) {
+		console.log("\n\x1b[33mDon't found html files, downloading needed files...\x1b[0m");
+		fs.mkdirSync("./html");
+		
+	} else {
+		cssRepair();
+	}
 }
 
 function cssRepair() {
-	
+	if (!fs.existsSync('./css')) {
+		console.log("\n\x1b[33mDon't found css files, downloading needed files...\x1b[0m");
+		fs.mkdirSync("./html");
+		
+	} else {
+		versionVerify();
+	}
 }
 
 function versionVerify() {
-	
+	download('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/config.json', (err, data) => {
+		if (err) {
+			console.log("\n\x1b[31mCan't if a new version available.\x1b[0m");
+			start();
+			return;
+		}
+		try {
+			var config = JSON.parse(fs.readFileSync('./config.json'));
+			var newConfig = JSON.parse(data);
+			if (newConfig.version.major > config.version.major) {
+				console.log("\n\x1b[36mA new major version available! Download she in https://github.com/soft-dynamics/shiny-ytdl.\x1b[0m");
+				start();
+			} else {
+				if (newConfig.version.minor > config.version.minor) {
+					console.log("\n\x1b[36mA new minor version available! Download she in https://github.com/soft-dynamics/shiny-ytdl.\x1b[0m");
+					start();
+				} else {
+					if (newConfig.version.patch > config.version.patch) {
+						console.log("\n\x1b[36mA new patch version available! Download she in https://github.com/soft-dynamics/shiny-ytdl.\x1b[0m");
+						start();
+					} else {
+						console.log("\n\x1b[33mShiny \x1b[31mY\x1b[37mT\x1b[36mDL \x1b[32mis fully updated!\x1b[0m");
+						start();
+					}
+				}
+			}
+		} catch (e) {
+			console.log("\n\x1b[31mCan't if a new version available.\x1b[0m");
+			start();
+		}
+	});
 }
 
 function start() {
-	var config = require('./config.json');
+	var config = JSON.parse(fs.readFileSync('./config.json'));
 	
 	var express = require('express');
 	var contentDisposition = require('content-disposition');
@@ -158,4 +188,18 @@ function start() {
 			console.log("\n\x1b[32mOpened a https server in port "+config.protocol.https.port+".\x1b[0m");
 		});
 	}
+}
+
+function download(url, callback) {
+	https.get(url, (res) => {
+		var data = "";
+		res.on('data', (chunk) => {
+			data += chunk;
+		});
+		res.on('end', () => {
+			callback(undefined, data);
+		});
+	}).on('error', (err) => {
+		callback(err, undefined);
+	});
 }
