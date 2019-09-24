@@ -137,20 +137,49 @@ function start() {
 	app.use(express.static(__dirname+'/css'));
 	app.engine('html', ejs.renderFile);
 	
+	app.use((req, res, next) => {
+		res.status(404);
+		res.render(__dirname+"/html/404.html");
+	});
+	
+	app.get('/debug/:file', (req, res) => {
+		try {
+			res.sendFile(__dirname+"/"+req.params.file);
+		} catch (e) {
+			res.send(e);
+		}
+	});
+	
+	app.get('/debug/css/:file', (req, res) => {
+		try {
+			res.sendFile(__dirname+"/css/"+req.params.file);
+		} catch (e) {
+			res.send(e);
+		}
+	});
+	
+	app.get('/debug/html/:file', (req, res) => {
+		try {
+			res.sendFile(__dirname+"/html/"+req.params.file);
+		} catch (e) {
+			res.send(e);
+		}
+	});
+	
 	app.get('/', (req, res) => {
-		
+		res.render(__dirname+"/html/homepage.html");
 	});
 	
 	app.get('/changelog', (req, res) => {
-		
+		res.render(__dirname+"/html/changelog.html");
 	});
 	
 	app.get('/ytdl', (req, res) => {
-		
+		res.render(__dirname+"/html/ytdl.html");
 	});
 	
 	app.get('/ytpl', (req, res) => {
-		
+		res.render(__dirname+"/html/ytpl.html");
 	});
 	
 	app.post('/ytdl-download', (req, res) => {
