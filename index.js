@@ -82,6 +82,16 @@ function cssRepair() {
 		fs.mkdirSync("./html");
 		
 	} else {
+		imagesRepair();
+	}
+}
+
+function imagesRepair() {
+	if (!fs.existsSync('./images')) {
+		console.log("\n\x1b[33mDon't found images, downloading needed images...\x1b[0m");
+		fs.mkdirSync("./images");
+		
+	} else {
 		versionVerify();
 	}
 }

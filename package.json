@@ -1,6 +1,6 @@
 {
   "name": "shiny-ytdl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A user website with the capacity to download YouTube videos and playlists",
   "main": "index.js",
   "scripts": {
