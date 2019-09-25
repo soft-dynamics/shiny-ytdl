@@ -46,6 +46,9 @@ To run after installed all:
 
 Problems with FFmpeg? see https://npmjs.com/package/fluent-ffmpeg
 
+## Changelog
+See in [here](https://github.com/soft-dynamics/shiny-ytdl/blob/master/CHANGELOG.md)
+
 ## Open Source licensed
 
 This project uses **GPL-v3.0** and you can view in [this link](https://github.com/soft-dynamics/shiny-ytdl/blob/master/LICENSE.txt)

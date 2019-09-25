@@ -108,7 +108,7 @@ function versionVerify() {
 						console.log("\n\x1b[36mA new patch version available! Download she in https://github.com/soft-dynamics/shiny-ytdl.\x1b[0m");
 						start();
 					} else {
-						console.log("\n\x1b[33mShiny \x1b[31mY\x1b[37mT\x1b[36mDL \x1b[32mis fully updated!\x1b[0m");
+						console.log("\n\x1b[33mShiny \x1b[37mY\x1b[31mT\x1b[36mDL \x1b[32mis fully updated!\x1b[0m");
 						start();
 					}
 				}
