@@ -9,6 +9,8 @@ You don't need GIT, you only need the NodeJS, NPM and FFmpeg (With support to mp
 
 This program is only tested in Android 8.1 and anothers plataform don't has sure it work
 
+This program has a auto install script in your index and he gonna download and install all npm modules or subfiles
+
 ### Android
 
 To download in Android you need the [Termux app](https://play.google.com/store/apps/details?id=com.termux) its for free!
@@ -33,7 +35,7 @@ To download in Windows you need the following programs:
 
 Install with wget on Windows:
 - [wget](http://gnuwin32.sourceforge.net/packages/wget.htm)
-1. `wget -O "shiny.js" https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/index.js`
+1. `wget -O "index.js" https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/index.js`
 2. `node index`
 
 Install with git:
