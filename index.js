@@ -3,6 +3,7 @@ var https = require('https');
 var cmd = require('child_process');
 var fs = require('fs');
 var path = require('path');
+Stream = require('stream').Transform;
 
 packRepair();
 
@@ -54,7 +55,7 @@ function depRepair() {
 		htmlRepair();
 	} catch (e) {
 		console.log(e);
-		/*console.log("\n\x1b[33mDon't found dependencies, installing all needed dependencies...\x1b[0m");
+		console.log("\n\x1b[33mDon't found dependencies, installing all needed dependencies...\x1b[0m");
 		cmd.exec('npm install', (error, stdout, stderr) => {
 			if (error) {
 				console.log("\n\x1b[31mA error has happen: \x1b[0m"+error);
@@ -62,7 +63,7 @@ function depRepair() {
 			}
 			console.log("\n\x1b[34mDependencies installed!\x1b[0m");
 			depRepair();
-		});*/
+		});
 	}
 }
 
@@ -70,7 +71,48 @@ function htmlRepair() {
 	if (!fs.existsSync("./html")) {
 		console.log("\n\x1b[33mDon't found html files, downloading needed files...\x1b[0m");
 		fs.mkdirSync("./html");
-		
+		download('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/html/404.html', (err, data) => {
+			if (err) {
+				console.log("\n\x1b[31mCan't download needed html files.\x1b[0m");
+				deleteFolder("./html");
+				process.exit(1);
+			}
+			fs.writeFileSync('./html/404.html');
+			download('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/html/changelog.html', (err, data) => {
+				if (err) {
+					console.log("\n\x1b[31mCan't download needed html files.\x1b[0m");
+					deleteFolder("./html");
+					process.exit(1);
+				}
+				fs.writeFileSync('./html/changelog.html');
+				download('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/html/homepage.html', (err, data) => {
+					if (err) {
+						console.log("\n\x1b[31mCan't download needed html files.\x1b[0m");
+						deleteFolder("./html");
+						process.exit(1);
+					}
+					fs.writeFileSync('./html/homepage.html');
+					download('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/html/ytdl.html', (err, data) => {
+						if (err) {
+							console.log("\n\x1b[31mCan't download needed html files.\x1b[0m");
+							deleteFolder("./html");
+							process.exit(1);
+						}
+						fs.writeFileSync('./html/ytdl.html');
+						download('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/html/ytpl.html', (err, data) => {
+							if (err) {
+								console.log("\n\x1b[31mCan't download needed html files.\x1b[0m");
+								deleteFolder("./html");
+								process.exit(1);
+							}
+							fs.writeFileSync('./html/ytpl.html');
+							console.log("\n\x1b[32mSuccessful downloaded html files!\x1b[0m");
+							htmlRepair();
+						});
+					});
+				});
+			});
+		});
 	} else {
 		cssRepair();
 	}
@@ -79,8 +121,17 @@ function htmlRepair() {
 function cssRepair() {
 	if (!fs.existsSync('./css')) {
 		console.log("\n\x1b[33mDon't found css files, downloading needed files...\x1b[0m");
-		fs.mkdirSync("./html");
-		
+		fs.mkdirSync("./css");
+		download('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/css/main.css', (err, data) => {
+			if (err) {
+				console.log("\n\x1b[31mCan't download needed css files.\x1b[0m");
+				deleteFolder("./html");
+				process.exit(1);
+			}
+			fs.writeFileSync("./css/main.css", data);
+			console.log("\n\x1b[32mSuccessful downloaded css files!\x1b[0m");
+			cssRepair();
+		});
 	} else {
 		imagesRepair();
 	}
@@ -90,7 +141,32 @@ function imagesRepair() {
 	if (!fs.existsSync('./images')) {
 		console.log("\n\x1b[33mDon't found images, downloading needed images...\x1b[0m");
 		fs.mkdirSync("./images");
-		
+		downloadFile('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/images/icon.ico', (err, data) => {
+			if (err) {
+				console.log("\n\x1b[31mCan't download needed images.\x1b[0m");
+				deleteFolder("./images");
+				process.exit(1);
+			}
+			fs.writeFileSync("./images/icon.ico", data.read());
+			downloadFile('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/images/icon.png', (err, data) => {
+				if (err) {
+					console.log("\n\x1b[31mCan't download needed images.\x1b[0m");
+					deleteFolder("./images");
+					process.exit(1);
+				}
+				fs.writeFileSync("./images/icon.png", data.read());
+				downloadFile('https://raw.githubusercontent.com/soft-dynamics/shiny-ytdl/master/images/logo.png', (err, data) => {
+					if (err) {
+						console.log("\n\x1b[31mCan't download needed images.\x1b[0m");
+						deleteFolder("./images");
+						process.exit(1);
+					}
+					fs.writeFileSync("./images/logo.png", data.read());
+					console.log("\n\x1b[32mSuccessful downloaded images!\x1b[0m");
+					imagesRepair();
+				});
+			});
+		});
 	} else {
 		versionVerify();
 	}
@@ -242,3 +318,31 @@ function download(url, callback) {
 		callback(err, undefined);
 	});
 }
+
+function downloadFile(url, callback) {
+	https.request(url, (res) => {                                        
+ 		var data = new Stream();                                                    
+ 		res.on('data', (chunk) => {                                       
+    		data.push(chunk);                                                         
+  		});                                                                         
+		res.on('end', () => {                                             
+    		callback(undefined, data);                              
+		});                                                                         
+	}).on('error', (e) => {
+		callback(e, undefined);
+	}).end();
+}
+function deleteFolder(path) {
+	if (fs.existsSync(path)) {
+    	fs.readdirSync(path).forEach((file,index) => {
+     		var curPath = path + "/" + file;
+      		if (fs.lstatSync(curPath).isDirectory()) {
+        		deleteFolder(curPath);
+     		} else {
+        		fs.unlinkSync(curPath);
+      		}
+    	});
+   		fs.rmdirSync(path);
+	}
+};
+
